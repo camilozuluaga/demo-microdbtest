@@ -46,7 +46,7 @@ public class User {
   private Date createdAt;
 
   @UpdateTimestamp
-  @Column(name = "updated_at")
+  @Column(name = "updated_at", nullable = false)
   private Date updatedAt;
 
   public String getCellPhoneNumber() {
