@@ -25,7 +25,7 @@ public class MainController {
     private UserRepository userRepository;
     
     @PostMapping(path = "/add") // Map ONLY POST Requests
-    public @ResponseBody Respuesta addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String documentNumber, @RequestParam(required = false) String cellPhoneNumber) throws SQLException {
+    public @ResponseBody Respuesta addNewUser(@RequestParam String name, @RequestParam String email, @RequestParam String documentNumber, @RequestParam(required = false) String cellPhoneNumber) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
