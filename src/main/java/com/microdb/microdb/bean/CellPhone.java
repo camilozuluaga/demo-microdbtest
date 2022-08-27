@@ -41,6 +41,9 @@ public class CellPhone {
     @Column(length = 12, nullable = false, unique = true)
     private String number;
 
+    @OneToOne(mappedBy = "cellPhoneId")
+    private User user;
+
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
@@ -53,19 +56,16 @@ public class CellPhone {
         return number;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    @OneToOne(mappedBy = "cellPhone")
-    private User user;
-
     public User getUser() {
         return user;
     }
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     public String getId() {
@@ -99,9 +99,4 @@ public class CellPhone {
     public void setModel(String model) {
         this.model = model;
     }
-
-
-
-    
-
 }

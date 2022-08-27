@@ -2,6 +2,7 @@ package com.microdb.microdb.bean;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,6 +29,14 @@ public class User {
   @Column(length = 36, nullable = false, updatable = false)
   private String id;
 
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private Date createdAt;
+
+  @UpdateTimestamp
+  @Column(name = "updated_at", nullable = false)
+  private Date updatedAt;
+
   private String name;
 
   @Email(message = "Email is not valid", regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
@@ -38,64 +47,16 @@ public class User {
   @Column(length = 12, nullable = false, unique = true)
   private String documentNumber;
 
-  @Size(min = 10, max = 15)
-  @Column(length = 15)
-  private String cellPhoneNumber;
-
-  @CreationTimestamp
-  @Column(name = "created_at", nullable = false, updatable = false)
-  private Date createdAt;
-
-  @UpdateTimestamp
-  @Column(name = "updated_at", nullable = false)
-  private Date updatedAt;
-
-  @OneToOne
-  @JoinColumn(name = "cellPhoneId")
-  private CellPhone cellPhone;
-
-  public CellPhone getCellPhone() {
-    return cellPhone;
-  }
-
-  public void setCellPhone(CellPhone cellPhone) {
-    this.cellPhone = cellPhone;
-  }
-
-  public String getCellPhoneNumber() {
-    return cellPhoneNumber;
-  }
-
-  public void setCellPhoneNumber(String cellPhoneNumber) {
-    this.cellPhoneNumber = cellPhoneNumber;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  public String getDocumentNumber() {
-    return documentNumber;
-  }
-
-  public void setDocumentNumber(String documentNumber) {
-    this.documentNumber = documentNumber;
-  }
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "cellPhoneId", referencedColumnName = "id")
+  private CellPhone cellPhoneId;
 
   public String getId() {
     return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
   public String getName() {
@@ -114,8 +75,36 @@ public class User {
     this.email = email;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public String getDocumentNumber() {
+    return documentNumber;
   }
 
+  public void setDocumentNumber(String documentNumber) {
+    this.documentNumber = documentNumber;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public CellPhone getCellPhoneId() {
+    return cellPhoneId;
+  }
+
+  public void setCellPhoneId(CellPhone cellPhoneId) {
+    this.cellPhoneId = cellPhoneId;
+  }
+  
 }

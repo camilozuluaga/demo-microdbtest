@@ -23,7 +23,7 @@ public class CellPhoneController {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
-    public Respuesta createPerson(@RequestBody CellPhone cellPhone) {
+    public Respuesta createCellPhone(@RequestBody CellPhone cellPhone) {
         Respuesta respuesta = new Respuesta();
         try {
             cellPhoneRepository.save(cellPhone);

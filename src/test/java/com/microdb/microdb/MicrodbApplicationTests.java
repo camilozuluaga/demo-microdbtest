@@ -17,7 +17,7 @@ class MicrodbApplicationTests {
 
     @Test
     void testAddNewUser() {
-        Respuesta res = mainController.addNewUser("Juan Camilo Zuluaga Serna", "juan.zuluaga@firefly-e.com", "1085365789", "3147589632");
+        Respuesta res = mainController.addNewUser("Juan Camilo Zuluaga Serna", "juan.zuluaga@firefly-e.com", "1085365789");
         assertEquals(null, res.getError());
     }
 
