@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.microdb.microdb.bean.Respuesta;
-import com.microdb.microdb.controller.MainController;
+import com.microdb.microdb.controller.UserController;
 
 @SpringBootTest
 class MicrodbApplicationTests {
 	
     @Autowired
-    private MainController mainController;
+    private UserController mainController;
 
     @Test
     void testAddNewUser() {

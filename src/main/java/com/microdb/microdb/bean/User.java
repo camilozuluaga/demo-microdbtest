@@ -7,16 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 @Entity // This tells Hibernate to make a table out of this class
-@Table(name="users")
+@Table(name = "users")
 public class User {
 
   @Id
@@ -27,10 +30,12 @@ public class User {
 
   private String name;
 
+  @Email(message = "Email is not valid", regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}", flags = Pattern.Flag.CASE_INSENSITIVE)
   private String email;
 
+  @Pattern(regexp = "(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$")
   @Size(min = 6, max = 12)
-  @Column(length = 12, nullable = false, unique=true)
+  @Column(length = 12, nullable = false, unique = true)
   private String documentNumber;
 
   @Size(min = 10, max = 15)
@@ -44,6 +49,18 @@ public class User {
   @UpdateTimestamp
   @Column(name = "updated_at", nullable = false)
   private Date updatedAt;
+
+  @OneToOne
+  @JoinColumn(name = "cellPhoneId")
+  private CellPhone cellPhone;
+
+  public CellPhone getCellPhone() {
+    return cellPhone;
+  }
+
+  public void setCellPhone(CellPhone cellPhone) {
+    this.cellPhone = cellPhone;
+  }
 
   public String getCellPhoneNumber() {
     return cellPhoneNumber;
@@ -97,5 +114,8 @@ public class User {
     this.email = email;
   }
 
-  
+  public void setId(String id) {
+    this.id = id;
+  }
+
 }
