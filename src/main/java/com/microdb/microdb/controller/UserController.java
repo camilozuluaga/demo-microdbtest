@@ -2,7 +2,6 @@ package com.microdb.microdb.controller;
 
 import java.util.Optional;
 
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -15,8 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.microdb.microdb.bean.Respuesta;
-import com.microdb.microdb.bean.User;
+import com.microdb.microdb.bean.db.UserDb;
+import com.microdb.microdb.bean.input.User;
+import com.microdb.microdb.bean.output.Respuesta;
 import com.microdb.microdb.repository.UserRepository;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -38,7 +38,7 @@ public class UserController {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
 
-        User n = new User();
+        UserDb n = new UserDb();
         n.setName(name);
         n.setEmail(email);
         n.setDocumentNumber(documentNumber);
@@ -56,8 +56,8 @@ public class UserController {
     }
 
     @PostMapping(value = "/add2", consumes =  {MediaType.APPLICATION_JSON_VALUE}, produces =  {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody User addNewUser2(@RequestBody User user) {
-        User n = new User();
+    public @ResponseBody UserDb addNewUser2(@RequestBody User user) {
+        UserDb n = new UserDb();
         n.setName(user.getName());
         n.setEmail(user.getEmail());
         n.setDocumentNumber(user.getDocumentNumber());
@@ -66,13 +66,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/find", consumes =  MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Optional<User> getUser(@RequestBody User user) {
+    public @ResponseBody Optional<UserDb> getUser(@RequestBody User user) {
         return userRepository.findById(user.getId());
 
     }
 
     @GetMapping(path = "/all")
-    public @ResponseBody Iterable<User> getAllUsers() {
+    public @ResponseBody Iterable<UserDb> getAllUsers() {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }

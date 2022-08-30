@@ -1,4 +1,4 @@
-package com.microdb.microdb.bean;
+package com.microdb.microdb.bean.output;
 
 public class Respuesta {
     

@@ -1,4 +1,4 @@
-package com.microdb.microdb.bean;
+package com.microdb.microdb.bean.db;
 
 import java.util.Date;
 
@@ -21,7 +21,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
-public class User {
+public class UserDb {
 
   @Id
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
@@ -49,7 +49,7 @@ public class User {
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cellPhoneId", referencedColumnName = "id")
-  private CellPhone cellPhoneId;
+  private CellPhoneDb cellPhoneId;
 
   public String getId() {
     return id;
@@ -99,11 +99,11 @@ public class User {
     this.updatedAt = updatedAt;
   }
 
-  public CellPhone getCellPhoneId() {
+  public CellPhoneDb getCellPhoneId() {
     return cellPhoneId;
   }
 
-  public void setCellPhoneId(CellPhone cellPhoneId) {
+  public void setCellPhoneId(CellPhoneDb cellPhoneId) {
     this.cellPhoneId = cellPhoneId;
   }
   
