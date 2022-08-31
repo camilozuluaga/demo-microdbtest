@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -19,7 +20,6 @@ import com.microdb.microdb.bean.input.User;
 import com.microdb.microdb.bean.output.Respuesta;
 import com.microdb.microdb.repository.UserRepository;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 
 @RestController// This means that this class is a Controller

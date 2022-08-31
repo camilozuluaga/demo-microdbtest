@@ -19,8 +19,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import lombok.Data;
+
 @Entity // This tells Hibernate to make a table out of this class
 @Table(name = "users")
+@Data
 public class UserDb {
 
   @Id
@@ -50,61 +53,5 @@ public class UserDb {
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "cellPhoneId", referencedColumnName = "id")
   private CellPhoneDb cellPhoneId;
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
-  public String getEmail() {
-    return email;
-  }
-
-  public void setEmail(String email) {
-    this.email = email;
-  }
-
-  public String getDocumentNumber() {
-    return documentNumber;
-  }
-
-  public void setDocumentNumber(String documentNumber) {
-    this.documentNumber = documentNumber;
-  }
-
-  public Date getCreatedAt() {
-    return createdAt;
-  }
-
-  public void setCreatedAt(Date createdAt) {
-    this.createdAt = createdAt;
-  }
-
-  public Date getUpdatedAt() {
-    return updatedAt;
-  }
-
-  public void setUpdatedAt(Date updatedAt) {
-    this.updatedAt = updatedAt;
-  }
-
-  public CellPhoneDb getCellPhoneId() {
-    return cellPhoneId;
-  }
-
-  public void setCellPhoneId(CellPhoneDb cellPhoneId) {
-    this.cellPhoneId = cellPhoneId;
-  }
   
 }
