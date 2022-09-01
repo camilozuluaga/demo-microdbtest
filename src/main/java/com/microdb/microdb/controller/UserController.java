@@ -85,7 +85,8 @@ public class UserController {
 
     @GetMapping(value = "/find", consumes =  MediaType.APPLICATION_JSON_VALUE, produces =  MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Optional<UserDb> getUser(@RequestBody User user) {
-        return userRepository.findById(user.getId());
+        Optional<UserDb> a = userRepository.findById(user.getId());
+		return a;
 
     }
 
