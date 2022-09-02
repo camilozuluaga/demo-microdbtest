@@ -1,11 +1,17 @@
 package com.microdb.microdb.controller;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.NestedExceptionUtils;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,13 +19,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.validation.FieldError;
+import org.hibernate.exception.ConstraintViolationException;
 import com.microdb.microdb.bean.db.CellPhoneDb;
 import com.microdb.microdb.bean.db.UserDb;
 import com.microdb.microdb.bean.input.CellPhone;
 import com.microdb.microdb.bean.input.User;
 import com.microdb.microdb.bean.output.Respuesta;
+import com.microdb.microdb.exception.MyResourceNotFoundException;
 import com.microdb.microdb.repository.CellPhoneRepository;
 import com.microdb.microdb.repository.UserRepository;
 
@@ -61,8 +71,11 @@ public class UserController {
     }
 
     @PostMapping(value = "/add2", consumes =  {MediaType.APPLICATION_JSON_VALUE}, produces =  {MediaType.APPLICATION_JSON_VALUE})
-    public @ResponseBody UserDb addNewUser2(@RequestBody User user) {
-        
+    @ExceptionHandler(ConstraintViolationException.class)
+	public @ResponseBody UserDb addNewUser2 (
+		@Valid
+		@RequestBody User user
+	) throws MethodArgumentNotValidException {
 		CellPhone cellPhone = user.getCellPhoneId();
 		CellPhoneDb cellPhoneDb = new CellPhoneDb();
 		if(cellPhone != null){
@@ -72,14 +85,15 @@ public class UserController {
 			cellPhoneRepository.save(cellPhoneDb);
 		}
 		
-		UserDb n = new UserDb();
-        n.setName(user.getName());
-        n.setEmail(user.getEmail());
-        n.setDocumentNumber(user.getDocumentNumber());
+		UserDb userDb = new UserDb();
+        userDb.setName(user.getName());
+        userDb.setEmail(user.getEmail());
+        userDb.setDocumentNumber(user.getDocumentNumber());
 		if(cellPhone != null){
-			n.setCellPhoneId(cellPhoneDb);
+			userDb.setCellPhoneId(cellPhoneDb);
 		}
-        return userRepository.save(n);
+		return userRepository.save(userDb);
+        
 
     }
 
@@ -95,4 +109,19 @@ public class UserController {
         // This returns a JSON or XML with the users
         return userRepository.findAll();
     }
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleValidationExceptions(
+	  MethodArgumentNotValidException ex) {
+		Map<String, String> errors = new HashMap<>();
+		ex.getBindingResult().getAllErrors().forEach((error) -> {
+			String fieldName = ((FieldError) error).getField();
+			String errorMessage = error.getDefaultMessage();
+			errors.put(fieldName, errorMessage);
+		});
+		return errors;
+	}
+
+	
 }
